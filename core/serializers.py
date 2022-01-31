@@ -27,15 +27,3 @@ class NotificationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Notification
         fields = "__all__"
-
-    def to_representation(self, instance):
-        primitive_repr = super(NotificationsSerializer, self).to_representation(instance)
-        instance.last_requested = timezone.now()
-        instance.save()
-        # print(primitive_repr)
-        return primitive_repr
-
-
-
-
-

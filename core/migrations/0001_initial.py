@@ -8,27 +8,55 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Notification_List',
+            name="Notification_List",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('message', models.TextField(blank=True, null=True)),
-                ('message_type', models.CharField(choices=[('N', 'Notify'), ('W', 'Warning')], max_length=20)),
-                ('read', models.BooleanField(default=False)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now, editable=False)),
-                ('updated_at', models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("message", models.TextField(blank=True, null=True)),
+                (
+                    "message_type",
+                    models.CharField(
+                        choices=[("N", "Notify"), ("W", "Warning")], max_length=20
+                    ),
+                ),
+                ("read", models.BooleanField(default=False)),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, editable=False
+                    ),
+                ),
+                ("updated_at", models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.CreateModel(
-            name='Notification',
+            name="Notification",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.EmailField(max_length=60, unique=True, verbose_name='email')),
-                ('notifications', models.ManyToManyField(to='core.Notification_List')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "user",
+                    models.EmailField(max_length=60, unique=True, verbose_name="email"),
+                ),
+                ("notifications", models.ManyToManyField(to="core.Notification_List")),
             ],
         ),
     ]

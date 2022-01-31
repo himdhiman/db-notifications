@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_alter_notification_notifications'),
+        ("core", "0002_alter_notification_notifications"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='Notification_List',
-            new_name='NotificationList',
+            old_name="Notification_List",
+            new_name="NotificationList",
         ),
     ]

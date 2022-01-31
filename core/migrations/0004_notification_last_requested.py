@@ -7,13 +7,13 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_rename_notification_list_notificationlist'),
+        ("core", "0003_rename_notification_list_notificationlist"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notification',
-            name='last_requested',
+            model_name="notification",
+            name="last_requested",
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
     ]

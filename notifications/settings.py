@@ -95,6 +95,8 @@ USE_TZ = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+AUTH_SERVER_URL = os.environ.get("AUTH_SERVER")
+
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 

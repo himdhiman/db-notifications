@@ -19,7 +19,6 @@ class NotificationListSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 class NotificationsSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     notifications = NotificationListSerializer(many=True)

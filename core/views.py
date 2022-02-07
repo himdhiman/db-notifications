@@ -4,6 +4,22 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
+class CreateUserNotification(APIView):
+    def post(self, request):
+        request_data = request.data
+        models.Notification.objects.create(
+            user=request_data["user"], username=request_data["username"]
+        )
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class DeleteUserNotification(APIView):
+    def post(self, request):
+        request_data = request.data
+        models.Notification.objects.filter(user=request_data["user"]).delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+
 class AddNotification(APIView):
     def post(self, request):
         request_data = request.data

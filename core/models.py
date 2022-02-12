@@ -19,7 +19,7 @@ class NotificationList(models.Model):
 class Notification(models.Model):
     user = models.EmailField(verbose_name="email", unique=True, max_length=60)
     username = models.CharField(unique=True, max_length=20)
-    notifications = models.ManyToManyField(NotificationList, null=True, blank=True)
+    notifications = models.ManyToManyField(NotificationList, blank=True)
     last_requested = models.DateTimeField(default=now, editable=True)
 
     def __str__(self):
@@ -31,7 +31,8 @@ def after_creating_user(sender, instance, created, **kwargs):
     if not created:
         return
     message = f"Hello {instance.username}, Welcome to DirtyBits."
-    obj = NotificationList.objects.create(message=message, message_type="N")
+    obj = NotificationList(message=message, message_type="N")
+    obj.save()
     instance.notifications.add(obj)
     instance.save()
     return

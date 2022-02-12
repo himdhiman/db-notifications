@@ -1,3 +1,4 @@
+from multiprocessing import context
 from rest_framework.views import APIView
 from core import serializers, models, middleware
 from rest_framework import status
@@ -39,13 +40,18 @@ class AddNotification(APIView):
 
 
 class GetNotifications(APIView):
-    def get(self, request):
+    def post(self, request):
         access_token = request.headers["Authorization"].split(" ")[1]
         response = middleware.Authentication.isAuthenticated(access_token)
         if not response["success"]:
             data = {"success": False, "message": "Unauthorized Request !"}
             return Response(data=data, status=status.HTTP_401_UNAUTHORIZED)
         user = response["data"]["email"]
-        notifications = models.Notification.objects.get(user=user)
-        data = serializers.NotificationsSerializer(notifications)
+        request_data = request.data
+        notifications = models.Notification.objects.filter(user=user, notifications__read = request_data["read"])
+        if len(notifications) == 0:
+            notifications = models.Notification.objects.filter(user=user)
+            data = serializers.NotificationsSerializerWithoutNotification(notifications, many=True)
+        else:
+            data = serializers.NotificationsSerializer(notifications, many=True)
         return Response(data=data.data, status=status.HTTP_200_OK)

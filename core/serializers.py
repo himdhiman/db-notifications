@@ -1,3 +1,4 @@
+from multiprocessing import context
 from rest_framework import serializers
 from core import models
 from django.utils import timezone
@@ -6,11 +7,10 @@ from django.utils import timezone
 class NotificationListSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     created_at = serializers.DateTimeField(read_only=True)
-    updated_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = models.NotificationList
-        fields = "__all__"
+        fields = ["id", "message", "read", "message_type", "created_at"]
 
     def create(self, validated_data):
         _ = validated_data.pop("user", None)
@@ -20,9 +20,20 @@ class NotificationListSerializer(serializers.ModelSerializer):
 
 
 class NotificationsSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
     notifications = NotificationListSerializer(many=True)
 
     class Meta:
         model = models.Notification
-        fields = "__all__"
+        fields = ["notifications", "last_requested"]
+
+
+class NotificationsSerializerWithoutNotification(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Notification
+        fields = ["last_requested"]
+
+    def to_representation(self, instance):
+        primitive_repr =  super(NotificationsSerializerWithoutNotification, self).to_representation(instance)
+        primitive_repr["notifications"] = []
+        return primitive_repr

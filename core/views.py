@@ -17,6 +17,8 @@ class CreateUserNotification(APIView):
 class DeleteUserNotification(APIView):
     def post(self, request):
         request_data = request.data
+        obj = models.Notification.objects.get(user=request_data["user"]).notifications.all()
+        obj.delete()
         models.Notification.objects.filter(user=request_data["user"]).delete()
         return Response(status=status.HTTP_202_ACCEPTED)
 
